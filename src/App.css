@@ -1,0 +1,49 @@
+.converter_main_wrapper {
+    width: 850px;
+	margin: 0 auto;
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+.converter_side_wrapper {
+    display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.converter_side {
+
+}
+
+.side_title {
+
+}
+
+.side_switcher {
+
+}
+
+.side_input_box {
+
+}
+
+.side_input {
+    
+}
+
+.converter_center_wrapper {
+	width: 90px;
+	padding-top: 150px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.converter_center_reverse {
+	width: 50px;
+	min-height: 50px;
+	background: url(https://s.rbk.ru/v5_cash_static/cash-1.5.97/styles/images/transfer.svg) no-repeat;
+	background-size: 50px;
+	margin: 0 auto;
+	cursor: pointer;
+}
