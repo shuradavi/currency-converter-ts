@@ -6,13 +6,13 @@ import { getAnArrayOfCurrencies, sortTheArrayOfCurrensies } from './functions/da
 import ConverterSide from './components/ConverterSide';
 
 function App() {
-    const [currencies, setCurrencies] = useState<null | Valute[]>(null);  // Список наименований валют
+    const [currencies, setCurrencies] = useState<Valute[]>([]);  // Список наименований валют
     const [fromCurrencyName, setFromCurrencyName] = useState<string>('RUR');    // Имя меняемой валюты
     const [fromValue, setFromValue] = useState<number>(1);  // Количество меняемой валюты
 	const [toCurrencyName, setToCurrencyName] = useState<string>('USD');    // Имя получаемой валюты
 	const [toValue, setToValue] = useState<undefined | number>();   // Количество получаемой валюты
     useEffect(() => {
-        if (!Boolean(currencies)) {
+        if (currencies.length == 0) {
             getData(pathToAPI)        // решить проблему с memory leak
                 .then(res => {
                     const arrayOfCurrencies = getAnArrayOfCurrencies(res)
@@ -20,14 +20,33 @@ function App() {
                     setCurrencies(sortedArrayOfCurrencies);
                 })
         }
-        // onChangeFromValue(fromValue)
-    })  
+        onChangeFromValue(fromValue)
+    }, [fromCurrencyName, toCurrencyName])
 
-    const onChangeFromValue = (value: number) => {
-        if (currencies !== null && Boolean(currencies.length)) {
-            const fromCurrencyData = currencies.find(cur => cur.CharCode === fromCurrencyName)!;
+    function calcExchangeRates(): number[] {
+            const fromCurrencyData = currencies.find(cur => cur.CharCode === fromCurrencyName)!
             const toCurrencyData = currencies.find(cur => cur.CharCode === toCurrencyName)!
             const rateFrom = fromCurrencyData.Value / fromCurrencyData.Nominal
+            const rateTo = toCurrencyData.Value / toCurrencyData.Nominal
+            return [rateFrom, rateTo]
+    }
+    const onChangeFromValue = (value: number) => {
+        if (currencies.length !== 0) {
+            const exchangeRatesArr = calcExchangeRates();
+            const result = value * (exchangeRatesArr[0] / exchangeRatesArr[1])
+            Number.isInteger(result)
+                ? setToValue(result)
+                : setToValue(Number(result.toFixed(4)))
+        }
+    }
+
+    const onChangeToValue = (value: number) => {
+        if (currencies.length !== 0) {
+            const exchangeRatesArr = calcExchangeRates();
+            const result = value * (exchangeRatesArr[1] / exchangeRatesArr[0])
+            Number.isInteger(result)
+                ? setFromValue(result)
+                : setFromValue(Number(result.toFixed(4)))
         }
     }
    
@@ -41,6 +60,8 @@ function App() {
                         currencies={currencies}
                         activeCurrencyName={fromCurrencyName}
                         exchageCurrencyName={toCurrencyName}
+                        onChangeValue={onChangeFromValue}
+                        setActiveCurrencyName={setFromCurrencyName}
                     />
 			  	</div>
                 <div className="converter_center_wrapper">
@@ -48,10 +69,13 @@ function App() {
                 </div>
                 <div className='converter_side_wrapper'>
                     <ConverterSide title={'Хочу приобрести'}
-                     inputValue={toValue}
-                     currencies={currencies}
-                     activeCurrencyName={toCurrencyName}
-                     exchageCurrencyName={fromCurrencyName}/>
+                        inputValue={toValue}
+                        currencies={currencies}
+                        activeCurrencyName={toCurrencyName}
+                        exchageCurrencyName={fromCurrencyName}
+                        onChangeValue={onChangeToValue}
+                        setActiveCurrencyName={setFromCurrencyName}
+                    />
                 </div>
             </div>
     </>

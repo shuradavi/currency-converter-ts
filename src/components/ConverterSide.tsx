@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { defaultPanelCurrencies } from "../defaultValues/defaultValues";
 import { Valute } from "../types/types";
-
-interface ConverterSideProps {
+import PanelCurrencies from "./PanelCurrencies";
+type ConverterSideProps = {
     title: string;
     inputValue: undefined | number;
     currencies: null | Valute[];
     activeCurrencyName: string;
     exchageCurrencyName: string;
+    onChangeValue: (value: number) => any;
+    setActiveCurrencyName: (value: string) => any;
 }
 
 const ConverterSide: React.FC<ConverterSideProps> = (props) => {
-    const { title, inputValue, currencies, activeCurrencyName, exchageCurrencyName } = props
+    const { title, inputValue, currencies, activeCurrencyName, exchageCurrencyName, onChangeValue, setActiveCurrencyName } = props
     
     const [onPanelCurrencies, setOnPanelCurrencies] = useState<string[]>(defaultPanelCurrencies); // Наименования валют на панели
     const [isFormOpen, setFormOpen] = useState<boolean>(false); // Сосояние формы с таблицей валют
@@ -36,10 +38,10 @@ const ConverterSide: React.FC<ConverterSideProps> = (props) => {
             <div className="side_title  title_font">
                 {title}
             </div>
-            <div className="side_switcher defaut_font">
-
+            <div className="side_panel_currencies defaut_font">
+                <PanelCurrencies onPanelCurrencies={onPanelCurrencies} />
             </div>
-            <div className="side_input_box">
+            <div className="side_input_wrapper">
                 <input
                     className="side_input"
                 />
