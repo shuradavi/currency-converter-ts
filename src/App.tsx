@@ -4,6 +4,7 @@ import { getData, pathToAPI } from './functions/API';
 import { Valute } from './types/types';
 import { getAnArrayOfCurrencies, sortTheArrayOfCurrensies } from './functions/dataProcessing';
 import ConverterSide from './components/ConverterSide';
+import Modal from './components/Modal'
 
 function App() {
     const [currencies, setCurrencies] = useState<Valute[]>([]);  // Список наименований валют
@@ -37,6 +38,7 @@ function App() {
             Number.isInteger(result)
                 ? setToValue(result)
                 : setToValue(Number(result.toFixed(4)))
+            setFromValue(value)
         }
     }
 
@@ -47,13 +49,18 @@ function App() {
             Number.isInteger(result)
                 ? setFromValue(result)
                 : setFromValue(Number(result.toFixed(4)))
+            setToValue(value)
         }
     }
-   
+    
+    
     return (
         <>
-            <h1>Конвертер валют</h1>
+            <h1 style={{display: 'flex', justifyContent: 'center'}}>Конвертер валют</h1>
             <div className='converter_main_wrapper'>
+                <Modal >
+
+                </Modal>
                 <div className='converter_side_wrapper'> 
                     <ConverterSide title={'У меня есть'}
                         inputValue={fromValue}
@@ -74,7 +81,7 @@ function App() {
                         activeCurrencyName={toCurrencyName}
                         exchageCurrencyName={fromCurrencyName}
                         onChangeValue={onChangeToValue}
-                        setActiveCurrencyName={setFromCurrencyName}
+                        setActiveCurrencyName={setToCurrencyName}
                     />
                 </div>
             </div>

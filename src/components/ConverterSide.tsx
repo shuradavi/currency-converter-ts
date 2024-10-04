@@ -39,11 +39,18 @@ const ConverterSide: React.FC<ConverterSideProps> = (props) => {
                 {title}
             </div>
             <div className="side_panel_currencies defaut_font">
-                <PanelCurrencies onPanelCurrencies={onPanelCurrencies} />
+                <PanelCurrencies
+                    onPanelCurrencies={onPanelCurrencies}
+                    activeCurrencyName={activeCurrencyName}
+                    setActiveCurrencyName={setActiveCurrencyName}
+                />
             </div>
             <div className="side_input_wrapper">
                 <input
                     className="side_input"
+                    onChange={event => onChangeValue(Number(event.target.value))}
+                    value={String(inputValue)}
+                    type='number'
                 />
             </div>
         </div>

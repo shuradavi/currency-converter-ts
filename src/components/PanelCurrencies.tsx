@@ -1,9 +1,15 @@
 import React, {FC} from 'react';
 
 type PanelCurrenciesProps = {
-    onPanelCurrencies: string[]
+    onPanelCurrencies: string[];
+    activeCurrencyName: string;
+    setActiveCurrencyName: (value: string) => any;
 }
-const PanelCurrencies: FC<PanelCurrenciesProps> = ({onPanelCurrencies}) => {
+const PanelCurrencies: FC<PanelCurrenciesProps> = ({ onPanelCurrencies, activeCurrencyName, setActiveCurrencyName }) => {
+    
+    const onCurrencyClickHandler = (curName: string) => {
+        setActiveCurrencyName(curName)
+    }
     return (
         <div className='panel_currencies'>
             {
@@ -11,7 +17,11 @@ const PanelCurrencies: FC<PanelCurrenciesProps> = ({onPanelCurrencies}) => {
                     onPanelCurrencies.map((curName, idx) => (
                         <div
                             key={idx}
-                            className='panel_currencies_item'
+                            onClick={() => onCurrencyClickHandler(curName)}
+                            className={
+                                activeCurrencyName === curName
+                                    ? 'panel_currencies_item active'
+                                    : 'panel_currencies_item'}
                         >
                             {curName}
                         </div>

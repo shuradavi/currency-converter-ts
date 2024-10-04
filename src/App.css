@@ -6,6 +6,12 @@
     font-display: swap;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .title_font {
     font-family: 'GraphikCy', Arial, Helvetica, sans-serif;
     font-size: 16px;
@@ -49,12 +55,30 @@
 	height: 20px;
 	padding: 12px 0;
 	cursor: pointer;
-    border-left: 1px solid #cdcdcd;
 	border-top: 1px solid #cdcdcd;
 	border-bottom: 1px solid #cdcdcd;
 	border-right: 1px solid #cdcdcd;
 	text-align: center;
 	position: relative;
+}
+.panel_currencies_item:first-child {
+    border-left: 1px solid #cdcdcd;
+	border-radius: 4px 0 0 4px;
+}
+
+.panel_currencies_item:last-child {
+	width: 60px;
+	background:url(https://s.rbk.ru/v5_cash_static/cash-1.5.97/styles/images/angle-arrow-down.svg) no-repeat 50px;
+	background-position: 50%;
+	background-size: 12px;
+	color: transparent;
+	border-radius: 0 4px 4px 0;
+}
+
+
+.panel_currencies_item.active {
+    color: #fff;
+	background-color: #16b67f;
 }
 
 .panel_currencies_preloader {
